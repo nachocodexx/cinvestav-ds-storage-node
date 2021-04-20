@@ -6,12 +6,12 @@ import fs2.io.file.Files
 import java.nio.file.Paths
 class CompressSpec extends munit.FunSuite {
   test("Compress"){
-    Files[IO]
-      .readAll(Paths.get("/home/nacho/Documents/test/default/00.txt"),4096)
-      .debug()
-      .compile
-      .drain
-      .unsafeRunSync()
+//    Files[IO]
+//      .readAll(Paths.get("/home/nacho/Documents/test/default/00.txt"),4096)
+//      .debug()
+//      .compile
+//      .drain
+//      .unsafeRunSync()
   }
 
 }

@@ -30,9 +30,11 @@ import fs2.concurrent.Topic
 import java.nio.file.{OpenOption, Path, Paths, StandardOpenOption, Files => FFF}
 import org.apache.commons.compress.compressors.CompressorStreamFactory
 import org.http4s.circe.CirceEntityCodec._
+import org.typelevel.ci.CIString
 import sun.awt.shell.ShellFolder
 
 import java.io.{File, FileOutputStream}
+import java.util.UUID
 import java.util.concurrent.{Executor, ExecutorService, Executors}
 import scala.concurrent.ExecutionContext
 
@@ -45,7 +47,7 @@ object Application extends IOApp{
         Stream.emits(parts)
           .covary[IO]
           .flatMap{ part =>
-            val filename = part.filename.getOrElse("sample")
+            val filename = req.headers.get(CIString("filename")).map(_.head.value).getOrElse("sample")
             val output =  FFF.newOutputStream(Paths.get(s"${C.storagePath}/$filename.gz"),StandardOpenOption.CREATE_NEW)
             val _cOut   = new CompressorStreamFactory()
               .createCompressorOutputStream(CompressorStreamFactory.getGzip,output)
